@@ -1,0 +1,1 @@
+{"Ok":{"assertions":[{"assertion":{"type":"NEB","winner":1,"loser":0},"difficulty":6.866762866762866,"margin":12474,"status":{"risk":1.0}}],"difficulty":6.866762866762866,"margin":12474,"winner":1,"num_candidates":2,"time_to_determine_winners":null,"time_to_find_assertions":null,"time_to_trim_assertions":null,"warning_trim_timed_out":false}}

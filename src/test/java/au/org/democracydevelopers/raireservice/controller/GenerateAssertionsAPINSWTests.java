@@ -33,10 +33,14 @@ import au.org.democracydevelopers.raireservice.request.GetAssertionsRequest;
 import au.org.democracydevelopers.raireservice.response.GenerateAssertionsResponse;
 import au.org.democracydevelopers.raireservice.testUtils;
 import au.org.democracydevelopers.raireservice.util.DoubleComparator;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -111,6 +115,19 @@ public class GenerateAssertionsAPINSWTests {
       assertNotNull(getResponse.getBody());
       assertEquals(0, doubleComparator.compare(expected.difficulty(),
           getResponse.getBody().solution.Ok.difficulty));
+
+      try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(
+            "src/test/resources/NSW2021Data/" + getRequest.contestName+".json"
+        ));
+        ObjectMapper mapper = new ObjectMapper();
+        writer.write(mapper.writeValueAsString(getResponse.getBody().solution));
+        writer.close();
+
+      } catch (Exception e) {
+        testUtils.log(logger, "Error writing assertions to file for contest " + getRequest.contestName);
+        // Just ignore it and go on.
+      }
     }
   }
 }
